@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="card">
+        <div class="search">
+            <input type="text" placeholder="Enter City Name" spellcheck="false">
+            <button><img width="15px" height="10px" src="https://vectorified.com/images/white-search-icon-transparent-background-33.png"></button>
+        </div>
+        <div class="error">
+            <p>Invalid City name</p>
+        </div>
+        <div class="weather">
+            <img src="https://cdn1.iconfinder.com/data/icons/weather-flat-8/50/Weather_Flat-29-1024.png" class="weather-icon">
+            <h1 class="temp">22°C</h1>
+            <h2 class="city">New York</h2>
+            <div class="details">
+                <div class="col">
+                    <img height="40px" src="https://cdn-icons-png.flaticon.com/512/578/578135.png" alt="">
+                    <p class="humidity">50%</p>
+                    <div>Humidity</div>
+                </div>
+                <div class="col">
+                    <img height="40px" src="https://www.pngplay.com/wp-content/uploads/8/Temperature-Icon-Transparent-Background.png" alt="">
+                    <p class="feels-like">25°C</p>
+                    <div>Feels like</div>
+                </div>
+                <div class="col">
+                    <img height="40px" src="https://webstockreview.net/images/windy-clipart-vector-8.png" alt="">
+                    <p class="wind-speed">25 km/h</p>
+                    <div>Wind Speed</div>
+                </div>
+                
+                
+            </div>
+            <div class="details2">
+                
+                <div class="col">
+                    <img height="40px" src="https://icon-library.com/images/pressure-icon/pressure-icon-27.jpg" alt="">
+                    <p class="air-pressure">758 mmHg</p>
+                    <div>Air pressure</div>
+                </div>
+                <div class="col">
+                    <img height="40px" src="https://cdn0.iconfinder.com/data/icons/weather-navy-volume-2/64/Visibility-512.png" alt="">
+                    <p class="visibility">25 km</p>
+                    <div>Visibility</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+
+        const apikey="a611394815d93582d07b08c2d7c29141";
+        const apiurl="https://api.openweathermap.org/data/2.5/weather?&units=metric&q=";
+        const searchBox=document.querySelector(".search input")
+        const searchBtn=document.querySelector(".search button")
+        const weatherIcon=document.querySelector(".weather-icon")
+       
+        async function checkweather(city){
+            const response=await fetch(apiurl+ city + `&appid=${apikey}`);
+            if(response.status==404){
+                document.querySelector(".error").style.display="block";
+                document.querySelector(".weather").style.display="none";
+            }
+            else{
+                var data =await response.json();
+
+            
+
+            
+            document.querySelector(".city").innerHTML= data.name;
+            document.querySelector(".temp").innerHTML= Math.round(data.main.temp)+"°C";
+            document.querySelector(".humidity").innerHTML= data.main.humidity+"%";
+            document.querySelector(".feels-like").innerHTML= Math.round(data.main.feels_like)+"°C";
+            document.querySelector(".wind-speed").innerHTML= data.wind.speed+" km/h";
+            document.querySelector(".air-pressure").innerHTML= data.main.pressure+" mmHg";
+            document.querySelector(".visibility").innerHTML= (data.visibility/1000)+" km";
+            
+            if(data.weather[0].main=="Clouds"){
+                       weatherIcon.src="https://cdn2.iconfinder.com/data/icons/weather-flat-14/64/weather02-1024.png";                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+            }
+            else if(data.weather[0].main=="Snow"){
+                       weatherIcon.src="http://clipart-library.com/images_k/snow-clipart-transparent-background/snow-clipart-transparent-background-16.png";                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+            }
+            else if(data.weather[0].main=="Clear"){
+                       weatherIcon.src="https://webstockreview.net/images/clipart-sun-transparent-background-6.png";                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+            }
+            else if(data.weather[0].main=="Rain"){
+                       weatherIcon.src="https://www.freeiconspng.com/uploads/rain-cloud-icon-33.png";                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+            }
+            else if(data.weather[0].main=="Drizzle"){
+                       weatherIcon.src="https://cdn-icons-png.flaticon.com/512/1532/1532285.png";                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+            }
+            else if(data.weather[0].main=="Mist"){
+                      weatherIcon.src="https://cdn0.iconfinder.com/data/icons/weather-346/64/fog-weather-mist-1024.png";                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
+            }
+            else if(data.weather[0].main=="Haze"){
+                      weatherIcon.src="https://cdn-icons-png.flaticon.com/512/1779/1779807.png";                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
+            }
+            document.querySelector(".weather").style.display="block";
+            document.querySelector(".error").style.display="none";
+        }
+        }
+        
+        document.querySelector(".error").style.display="none";
+        searchBtn.addEventListener("click",()=>{
+            checkweather(searchBox.value);
+        })
+        checkweather();
+    </script>
+ </body>
+</html> 
+
+ <!--  https://api.openweathermap.org/data/2.5/weather?q=delhi&appid=a611394815d93582d07b08c2d7c29141 -->
